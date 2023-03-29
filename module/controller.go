@@ -42,7 +42,7 @@ func InsertKuesioner(db *mongo.Database, col string, long float64, lat float64, 
 	return InsertOneDoc(db, col, kuesioner)
 }
 
-func InsertResponden(db *mongo.Database, col string, nama string,  jenis_kelamin string, usia int, email string, phone_number string, hari_pengisian []string) (InsertedID interface{}) {
+func InsertResponden(db *mongo.Database, col string, nama string,  jenis_kelamin string, usia int, email string, phone_number string, hari_pengisian string) (InsertedID interface{}) {
 	var responden model.Responden
 	responden.Nama = nama
     responden.Jenis_kelamin = jenis_kelamin

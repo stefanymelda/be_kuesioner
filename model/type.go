@@ -13,7 +13,7 @@ type Responden struct {
 	Email      	     string             `bson:"email,omitempty" json:"email,omitempty"`
 	Phone_number     string             `bson:"phone_number,omitempty" json:"phone_number,omitempty"`
 	Jam_pengisian    []JamPengisian     `bson:"jam_pengisian,omitempty" json:"jam_pengisian,omitempty"`
-	Hari_pengisian   []string           `bson:"hari_pengisian,omitempty" json:"hari_pengisian,omitempty"`
+	Hari_pengisian   string           `bson:"hari_pengisian,omitempty" json:"hari_pengisian,omitempty"`
 }
 
 type JamPengisian struct {
