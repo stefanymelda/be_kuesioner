@@ -7,59 +7,85 @@ import (
 	"testing"
 )
 
-func TestInsertKuesioner(t *testing.T) {
-	var jamIsi1 = model.JamPengisian{
-		Durasi:     2,
-		Jam_mulai:  "10:00",
-		Jam_selesai: "12:00",
-		Gmt:        7,
-		Hari:       []string{"Rabu", "Jumat", "Sabtu"},
-	}
-	var jamIsi2 = model.JamPengisian{
-		Durasi:     4,
-		Jam_mulai:  "15:00",
-		Jam_selesai: "19:00",
-		Gmt:        7,
-		Hari:       []string{"Senin"},
-	}
 
+func TestInsertKuesioner(t *testing.T) {
 	long := -6.873165194466392
 	lat := 107.57589801606773
 	lokasi := "ULBI"
-	email := "juwitastefany13@gmail.com"
+	email := "stefanymelda01@gmail.com"
 	status := "selesai"
 	biodata := model.Responden{
-		Nama : "Juwita Stefany",
-		Email : "juwitastefany13@gmail.com",
+		Nama : "Stefany Melda",
+		Email : "stefanymelda01@gmail.com",
 		Jenis_kelamin : "perempuan",
-		Jam_pengisian:   []model.JamPengisian{jamIsi1, jamIsi2},
-		Hari_pengisian:  []string{"Rabu", "Kamis"},
 	}
-	hasil:= module.InsertKuesioner(module.MongoConn, "kuesioner", long ,lat , lokasi , email , status , biodata )
+	hasil:=module.InsertKuesioner(module.MongoConn, "kuesioner", long ,lat , lokasi , email , status , biodata )
 	fmt.Println(hasil)
-
 }
 
-
-func TestGetRespondenFromEmail(t *testing.T) {
-	email := "juwitastefany13@gmail.com"
-	biodata := module.GetRespondenFromEmail(email, module.MongoConn, "kuesioner")
-	fmt.Println(biodata)
+func TestInsertResponden(t *testing.T) {
+	nama := "Stefany Melda"
+	jenis_kelamin := "perempuan"
+	usia := 19
+	phone_number := "081267902121"
+	hari_pengisian := "Senin"
+	hasil := module.InsertResponden(module.MongoConn, "responden", nama , jenis_kelamin, usia, phone_number, hari_pengisian)
+	fmt.Println(hasil)
 }
 
-func TestGetRespondenFromStatus(t *testing.T) {
+func TestInsertJamPengisian(t *testing.T) {
+	durasi := 2
+	jam_mulai := "10 AM"
+	jam_selesai := "11 AM"
+	gmt := 7
+	hasil := module.InsertJamPengisian(module.MongoConn, "jampengisian", durasi, jam_mulai, jam_selesai, gmt)
+	fmt.Println(hasil)
+}
+
+func TestInsertLokasi(t *testing.T) {
+	nama := "ULBI"
+	kategori := "Kampus"
+	hasil := module.InsertLokasi(module.MongoConn, "lokasi", nama, kategori)
+	fmt.Println(hasil)
+}
+
+func TestInsertSurvey(t *testing.T) {
+	kode := 01
+	title := "Boyband BTS"
+	soal := model.Question {
+		Text : "Sejak kapan BTS debut?",
+	}
+	hasil := module.InsertSurvey(module.MongoConn, "survey", kode , title, soal)
+	fmt.Println(hasil)
+}
+
+func TestGetKuesionerFromStatus(t *testing.T) {
 	status := "selesai"
 	biodata := module.GetKuesionerFromStatus(status, module.MongoConn, "kuesioner")
 	fmt.Println(biodata)
 }
 
-func TestGetAllRespondenFromStatus(t *testing.T) {
-	status := "selesai"
-	data := module.GetAllKuesionerFromStatus(status, module.MongoConn, "kuesioner")
+func TestGetRespondenFromUsia(t *testing.T) {
+	usia := 19
+	data := module.GetRespondenFromUsia(usia, module.MongoConn, "responden")
 	fmt.Println(data)
 }
 
-func TestGetAll(t *testing.T) {
-	data := module.GetAllKuesioner(module.MongoConn, "kuesioner")
+func TestGetJamPengisianFromDurasi(t *testing.T) {
+	durasi := 2
+	data := module.GetJamPengisianFromDurasi(durasi, module.MongoConn, "jampengisian")
 	fmt.Println(data)
 }
+
+func TestGetLokasiFromNama(t *testing.T) {
+	nama := "ULBI"
+	data := module.GetLokasiFromNama(nama, module.MongoConn, "lokasi")
+	fmt.Println(data)
+}
+
+func TestGetAllKuesionerFromEmail(t *testing.T) {
+	email := "stefanymelda01@gmail.com"
+	data := module.GetAllKuesionerFromEmail(email, module.MongoConn, "kuesioner")
+	fmt.Println(data)
+}
+
