@@ -22,7 +22,7 @@ type JamPengisian struct {
 	Jam_selesai string   `bson:"jam_selesai,omitempty" json:"jam_selesai,omitempty"`
 	Deskripsi 	string	 `bson:"deskripsi,omitempty" json:"deskripsi,omitempty"`
 	Gmt         int      `bson:"gmt,omitempty" json:"gmt,omitempty"`
-	Hari        []string `bson:"hari,omitempty" json:"hari,omitempty"`
+	// Hari        []string `bson:"hari,omitempty" json:"hari,omitempty"`
 }
 
 type Kuesioner struct {
