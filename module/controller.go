@@ -30,10 +30,10 @@ func InsertOneDoc(db *mongo.Database, collection string, doc interface{}) (inser
 }
 
 
-func InsertKuesioner(db *mongo.Database, col string, long float64, lat float64, lokasi string, email string, status string, biodata model.Responden) (InsertedID interface{}) {
+func InsertKuesioner(db *mongo.Database, col string, lat float64, long float64, lokasi string, email string, status string, biodata model.Responden) (InsertedID interface{}) {
 	var kuesioner model.Kuesioner
-	kuesioner.Latitude = long
-	kuesioner.Longitude = lat
+	kuesioner.Latitude = lat
+	kuesioner.Longitude = long
 	kuesioner.Location = lokasi
 	kuesioner.Email = email
 	kuesioner.Datetime = primitive.NewDateTimeFromTime(time.Now().UTC())
@@ -143,4 +143,18 @@ func GetAllKuesionerFromEmail(email string, db *mongo.Database, col string) (aks
 		fmt.Println(err)
 	}
 	return 
+}
+
+func GetAllKuesioner(db *mongo.Database, col string) (data []model.Kuesioner) {
+	data_kuesioner := db.Collection(col)
+	filter := bson.M{}
+	cursor, err := data_kuesioner.Find(context.TODO(), filter)
+	if err != nil {
+		fmt.Println("GetALLData :", err)
+	}
+	err = cursor.All(context.TODO(), &data)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return
 }
