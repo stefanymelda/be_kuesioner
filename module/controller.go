@@ -42,23 +42,24 @@ func InsertKuesioner(db *mongo.Database, col string, lat float64, long float64, 
 	return InsertOneDoc(db, col, kuesioner)
 }
 
-func InsertResponden(db *mongo.Database, col string, nama string,  jenis_kelamin string, usia int, email string, phone_number string, hari_pengisian string) (InsertedID interface{}) {
+func InsertResponden(db *mongo.Database, col string, nama string,  jenis_kelamin string, usia int, email string, phone_number string, jam_pengisian model.JamPengisian, hari_pengisian string) (InsertedID interface{}) {
 	var responden model.Responden
 	responden.Nama = nama
     responden.Jenis_kelamin = jenis_kelamin
     responden.Usia = usia
     responden.Email = email
     responden.Phone_number = phone_number
+	responden.Jam_pengisian = jam_pengisian
 	responden.Hari_pengisian = hari_pengisian
 	return InsertOneDoc(db, col, responden)
 }
 
-func InsertJamPengisian(db *mongo.Database, col string, durasi int, jam_mulai string, jam_selesai string, gmt int) (InsertedID interface{}) {
+func InsertJamPengisian(db *mongo.Database, col string, durasi int, jam_mulai string, jam_selesai string, deskripsi string) (InsertedID interface{}) {
 	var jampengisian model.JamPengisian
 	jampengisian.Durasi = durasi
 	jampengisian.Jam_mulai = jam_mulai
 	jampengisian.Jam_selesai = jam_selesai
-	jampengisian.Gmt = gmt
+	jampengisian.Deskripsi = deskripsi
 	return InsertOneDoc(db, col, jampengisian)
 }
 
@@ -69,10 +70,11 @@ func InsertLokasi(db *mongo.Database, col string, nama string, kategori string) 
 	return InsertOneDoc(db, col, lokasi)
 }
 
-func InsertQuestion(db *mongo.Database, col string, nomor int, text string) (InsertedID interface{}) {
+func InsertQuestion(db *mongo.Database, col string, nomor int, text string, options string) (InsertedID interface{}) {
 	var question model.Question
 	question.Nomor = nomor
 	question.Text = text
+	question.Options = options
 	return InsertOneDoc(db, col, question)
 }
 

@@ -16,10 +16,16 @@ func TestInsertKuesioner(t *testing.T) {
     status := "Done"
     biodata := model.Responden{
         Nama : "Yuki Kato",
-        Email : "yukikato10@gmail.com",
         Jenis_kelamin : "perempuan",
+		Email : "yukikato10@gmail.com",
         Usia : 27,
         Phone_number : "081387230912",
+		Jam_pengisian : model.JamPengisian{
+			Durasi : 2,
+			Jam_mulai : "12.00",
+			Jam_selesai : "14.00",
+			Deskripsi : "Telah mengisi selama 2 jam",
+		},
         Hari_pengisian : "Rabu",
 
     }
@@ -35,17 +41,24 @@ func TestInsertResponden(t *testing.T) {
 	usia := 19
 	email := "stefanymelda01@gamil.com"
 	phone_number := "081267902121"
+	jam_pengisian := model.JamPengisian {
+		Durasi : 2,
+		Jam_mulai : "12.00",
+		Jam_selesai : "14.00",
+		Deskripsi : "Telah mengisi selama 2 jam",
+
+	}
 	hari_pengisian := "Senin"
-	hasil := module.InsertResponden(module.MongoConn, "responden", nama , jenis_kelamin, usia, email, phone_number, hari_pengisian)
+	hasil := module.InsertResponden(module.MongoConn, "responden", nama , jenis_kelamin, usia, email, phone_number, jam_pengisian, hari_pengisian)
 	fmt.Println(hasil)
 }
 
 func TestInsertJamPengisian(t *testing.T) {
 	durasi := 2
-	jam_mulai := "10 AM"
-	jam_selesai := "11 AM"
-	gmt := 7
-	hasil := module.InsertJamPengisian(module.MongoConn, "jampengisian", durasi, jam_mulai, jam_selesai, gmt)
+	jam_mulai := "12 AM"
+	jam_selesai := "14 AM"
+	deskripsi := "telah mengisi selama 2 jam"
+	hasil := module.InsertJamPengisian(module.MongoConn, "jampengisian", durasi, jam_mulai, jam_selesai, deskripsi)
 	fmt.Println(hasil)
 }
 
@@ -60,7 +73,9 @@ func TestInsertSurvey(t *testing.T) {
 	kode := 01
 	title := "Boyband BTS"
 	soal := model.Question {
+		Nomor : 1,
 		Text : "Sejak kapan BTS debut?",
+		Options : "a.2016 b.2017",
 	}
 	hasil := module.InsertSurvey(module.MongoConn, "survey", kode , title, soal)
 	fmt.Println(hasil)
@@ -96,7 +111,7 @@ func TestGetAllKuesionerFromEmail(t *testing.T) {
 	fmt.Println(data)
 }
 
-func TestGetAllKuesioner(t *testing.T) {
+func TestGetAll(t *testing.T) {
 	data := module.GetAllKuesioner(module.MongoConn, "kuesioner")
 	fmt.Println(data)
 }

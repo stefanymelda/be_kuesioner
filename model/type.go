@@ -12,7 +12,7 @@ type Responden struct {
 	Usia             int      			 `bson:"usia,omitempty" json:"usia,omitempty"`
 	Email      	     string             `bson:"email,omitempty" json:"email,omitempty"`
 	Phone_number     string             `bson:"phone_number,omitempty" json:"phone_number,omitempty"`
-	Jam_pengisian    []JamPengisian     `bson:"jam_pengisian,omitempty" json:"jam_pengisian,omitempty"`
+	Jam_pengisian    JamPengisian     `bson:"jam_pengisian,omitempty" json:"jam_pengisian,omitempty"`
 	Hari_pengisian   string           `bson:"hari_pengisian,omitempty" json:"hari_pengisian,omitempty"`
 }
 
@@ -21,7 +21,7 @@ type JamPengisian struct {
 	Jam_mulai   string   `bson:"jam_mulai,omitempty" json:"jam_mulai,omitempty"`
 	Jam_selesai string   `bson:"jam_selesai,omitempty" json:"jam_selesai,omitempty"`
 	Deskripsi 	string	 `bson:"deskripsi,omitempty" json:"deskripsi,omitempty"`
-	Gmt         int      `bson:"gmt,omitempty" json:"gmt,omitempty"`
+	// Gmt         int      `bson:"gmt,omitempty" json:"gmt,omitempty"`
 	// Hari        []string `bson:"hari,omitempty" json:"hari,omitempty"`
 }
 
@@ -34,20 +34,20 @@ type Kuesioner struct {
 	Datetime     primitive.DateTime `bson:"datetime,omitempty" json:"datetime,omitempty"`
 	Status       string             `bson:"status,omitempty" json:"status,omitempty"`
 	Biodata      Responden           `bson:"biodata,omitempty" json:"biodata,omitempty"`
-	Lokasi_kuis  Lokasi              `bson:"lokasi_kuis,omitempty" json:"lokasi_kuis,omitempty"`
+	// Lokasi_kuis  Lokasi              `bson:"lokasi_kuis,omitempty" json:"lokasi_kuis,omitempty"`
 }
 
 type Lokasi struct {
 	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
 	Nama     string             `bson:"nama,omitempty" json:"nama,omitempty"`
-	Batas    Geometry           `bson:"batas,omitempty" json:"batas,omitempty"`
+	// Batas    Geometry           `bson:"batas,omitempty" json:"batas,omitempty"`
 	Kategori string             `bson:"kategori,omitempty" json:"kategori,omitempty"`
 }
 
 type Question struct {
 	Nomor    int				`bson:"nomor,omitempty" json:"nomor,omitempty"`
 	Text     string             `bson:"text,omitempty" json:"text,omitempty"`
-	Options  []string             `bson:"option,omitempty" json:"option,omitempty"`
+	Options  string             `bson:"options,omitempty" json:"options,omitempty"`
 }
 
 type Answer struct {
@@ -61,7 +61,3 @@ type Survey struct {
 	Soal	Question	`bson:"soal,omitempty" json:"soal,omitempty"`
 }
 
-type Geometry struct {
-	Type        string      `json:"type" bson:"type"`
-	Coordinates interface{} `json:"coordinates" bson:"coordinates"`
-}
