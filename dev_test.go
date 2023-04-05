@@ -9,24 +9,17 @@ import (
 
 
 func TestInsertKuesioner(t *testing.T) {
-	long := 118.9808932
-    lat := 32.2023727
-    lokasi := "Jepang"
-    email := "yukikato10@gmail.com"
+	long := 103.5394871
+    lat := -1.6102634
+    lokasi := "Jambi"
+    email := "rinaldibarimbing@gmail.com"
     status := "Done"
     biodata := model.Responden{
-        Nama : "Yuki Kato",
-        Jenis_kelamin : "perempuan",
-		Email : "yukikato10@gmail.com",
-        Usia : 27,
-        Phone_number : "081387230912",
-		Jam_pengisian : model.JamPengisian{
-			Durasi : 2,
-			Jam_mulai : "12.00",
-			Jam_selesai : "14.00",
-			Deskripsi : "Telah mengisi selama 2 jam",
-		},
-        Hari_pengisian : "Rabu",
+        Nama : "Rinaldi Barimbing",
+        Jenis_kelamin : "laki-laki",
+		Email : "rinaldibarimbing@gmail.com",
+        Usia : 25,
+        Phone_number : "082264531232",
 
     }
 
@@ -36,53 +29,45 @@ func TestInsertKuesioner(t *testing.T) {
 }
 
 func TestInsertResponden(t *testing.T) {
-	nama := "Stefany Melda"
+	nama := "Wina Sibuea"
 	jenis_kelamin := "perempuan"
 	usia := 19
-	email := "stefanymelda01@gamil.com"
-	phone_number := "081267902121"
-	jam_pengisian := model.JamPengisian {
-		Durasi : 2,
-		Jam_mulai : "12.00",
-		Jam_selesai : "14.00",
-		Deskripsi : "Telah mengisi selama 2 jam",
-
-	}
-	hari_pengisian := "Senin"
-	hasil := module.InsertResponden(module.MongoConn, "responden", nama , jenis_kelamin, usia, email, phone_number, jam_pengisian, hari_pengisian)
+	email := "winasibuea22@gmail.com"
+	phone_number := "082174302874"
+	hasil := module.InsertResponden(module.MongoConn, "responden", nama , jenis_kelamin, usia, email, phone_number)
 	fmt.Println(hasil)
 }
 
-func TestInsertJamPengisian(t *testing.T) {
-	durasi := 2
-	jam_mulai := "12 AM"
-	jam_selesai := "14 AM"
-	deskripsi := "telah mengisi selama 2 jam"
-	hasil := module.InsertJamPengisian(module.MongoConn, "jampengisian", durasi, jam_mulai, jam_selesai, deskripsi)
-	fmt.Println(hasil)
-}
+// func TestInsertJamPengisian(t *testing.T) {
+// 	durasi := 2
+// 	jam_mulai := "12 AM"
+// 	jam_selesai := "14 AM"
+// 	deskripsi := "telah mengisi selama 2 jam"
+// 	hasil := module.InsertJamPengisian(module.MongoConn, "jampengisian", durasi, jam_mulai, jam_selesai, deskripsi)
+// 	fmt.Println(hasil)
+// }
 
 func TestInsertLokasi(t *testing.T) {
-	nama := "ULBI"
-	kategori := "Kampus"
+	nama := "Bali"
+	kategori := "Kota"
 	hasil := module.InsertLokasi(module.MongoConn, "lokasi", nama, kategori)
 	fmt.Println(hasil)
 }
 
 func TestInsertSurvey(t *testing.T) {
-	kode := 01
+	kode := 0141
 	title := "Boyband BTS"
 	soal := model.Question {
-		Nomor : 1,
-		Text : "Sejak kapan BTS debut?",
-		Options : "a.2016 b.2017",
+		Nomor : 15,
+		Text : "Siapa anjing Taehyung?",
+		Options : "a.Yeontan b.Jolly",
 	}
 	hasil := module.InsertSurvey(module.MongoConn, "survey", kode , title, soal)
 	fmt.Println(hasil)
 }
 
 func TestGetKuesionerFromStatus(t *testing.T) {
-	status := "selesai"
+	status := "Done"
 	biodata := module.GetKuesionerFromStatus(status, module.MongoConn, "kuesioner")
 	fmt.Println(biodata)
 }
@@ -93,11 +78,11 @@ func TestGetRespondenFromUsia(t *testing.T) {
 	fmt.Println(data)
 }
 
-func TestGetJamPengisianFromDurasi(t *testing.T) {
-	durasi := 2
-	data := module.GetJamPengisianFromDurasi(durasi, module.MongoConn, "jampengisian")
-	fmt.Println(data)
-}
+// func TestGetJamPengisianFromDurasi(t *testing.T) {
+// 	durasi := 2
+// 	data := module.GetJamPengisianFromDurasi(durasi, module.MongoConn, "jampengisian")
+// 	fmt.Println(data)
+// }
 
 func TestGetLokasiFromNama(t *testing.T) {
 	nama := "ULBI"

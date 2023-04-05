@@ -12,18 +12,18 @@ type Responden struct {
 	Usia             int      			 `bson:"usia,omitempty" json:"usia,omitempty"`
 	Email      	     string             `bson:"email,omitempty" json:"email,omitempty"`
 	Phone_number     string             `bson:"phone_number,omitempty" json:"phone_number,omitempty"`
-	Jam_pengisian    JamPengisian     `bson:"jam_pengisian,omitempty" json:"jam_pengisian,omitempty"`
-	Hari_pengisian   string           `bson:"hari_pengisian,omitempty" json:"hari_pengisian,omitempty"`
+	// Jam_pengisian    JamPengisian     `bson:"jam_pengisian,omitempty" json:"jam_pengisian,omitempty"`
+	// Hari_pengisian   string           `bson:"hari_pengisian,omitempty" json:"hari_pengisian,omitempty"`
 }
 
-type JamPengisian struct {
-	Durasi      int      `bson:"durasi,omitempty" json:"durasi,omitempty"`
-	Jam_mulai   string   `bson:"jam_mulai,omitempty" json:"jam_mulai,omitempty"`
-	Jam_selesai string   `bson:"jam_selesai,omitempty" json:"jam_selesai,omitempty"`
-	Deskripsi 	string	 `bson:"deskripsi,omitempty" json:"deskripsi,omitempty"`
-	// Gmt         int      `bson:"gmt,omitempty" json:"gmt,omitempty"`
-	// Hari        []string `bson:"hari,omitempty" json:"hari,omitempty"`
-}
+// type JamPengisian struct {
+// 	Durasi      int      `bson:"durasi,omitempty" json:"durasi,omitempty"`
+// 	Jam_mulai   string   `bson:"jam_mulai,omitempty" json:"jam_mulai,omitempty"`
+// 	Jam_selesai string   `bson:"jam_selesai,omitempty" json:"jam_selesai,omitempty"`
+// 	Deskripsi 	string	 `bson:"deskripsi,omitempty" json:"deskripsi,omitempty"`
+// 	// Gmt         int      `bson:"gmt,omitempty" json:"gmt,omitempty"`
+// 	// Hari        []string `bson:"hari,omitempty" json:"hari,omitempty"`
+// }
 
 type Kuesioner struct {
 	ID           primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`

@@ -42,26 +42,26 @@ func InsertKuesioner(db *mongo.Database, col string, lat float64, long float64, 
 	return InsertOneDoc(db, col, kuesioner)
 }
 
-func InsertResponden(db *mongo.Database, col string, nama string,  jenis_kelamin string, usia int, email string, phone_number string, jam_pengisian model.JamPengisian, hari_pengisian string) (InsertedID interface{}) {
+func InsertResponden(db *mongo.Database, col string, nama string,  jenis_kelamin string, usia int, email string, phone_number string) (InsertedID interface{}) {
 	var responden model.Responden
 	responden.Nama = nama
     responden.Jenis_kelamin = jenis_kelamin
     responden.Usia = usia
     responden.Email = email
     responden.Phone_number = phone_number
-	responden.Jam_pengisian = jam_pengisian
-	responden.Hari_pengisian = hari_pengisian
+	// responden.Jam_pengisian = jam_pengisian
+	// responden.Hari_pengisian = hari_pengisian
 	return InsertOneDoc(db, col, responden)
 }
 
-func InsertJamPengisian(db *mongo.Database, col string, durasi int, jam_mulai string, jam_selesai string, deskripsi string) (InsertedID interface{}) {
-	var jampengisian model.JamPengisian
-	jampengisian.Durasi = durasi
-	jampengisian.Jam_mulai = jam_mulai
-	jampengisian.Jam_selesai = jam_selesai
-	jampengisian.Deskripsi = deskripsi
-	return InsertOneDoc(db, col, jampengisian)
-}
+// func InsertJamPengisian(db *mongo.Database, col string, durasi int, jam_mulai string, jam_selesai string, deskripsi string) (InsertedID interface{}) {
+// 	var jampengisian model.JamPengisian
+// 	jampengisian.Durasi = durasi
+// 	jampengisian.Jam_mulai = jam_mulai
+// 	jampengisian.Jam_selesai = jam_selesai
+// 	jampengisian.Deskripsi = deskripsi
+// 	return InsertOneDoc(db, col, jampengisian)
+// }
 
 func InsertLokasi(db *mongo.Database, col string, nama string, kategori string) (InsertedID interface{}) {
 	var lokasi model.Lokasi
@@ -113,15 +113,15 @@ func GetRespondenFromUsia(usia int, db *mongo.Database, col string) (rsp model.R
 	return rsp
 }
 
-func GetJamPengisianFromDurasi(durasi int, db *mongo.Database, col string) (jp model.JamPengisian) {
-	jampengisian := db.Collection(col)
-	filter := bson.M{"durasi": durasi}
-	err := jampengisian.FindOne(context.TODO(), filter).Decode(&jp)
-	if err != nil {
-		fmt.Printf("getJamPengisianFromDurasi: %v\n", err)
-	}
-	return jp
-}
+// func GetJamPengisianFromDurasi(durasi int, db *mongo.Database, col string) (jp model.JamPengisian) {
+// 	jampengisian := db.Collection(col)
+// 	filter := bson.M{"durasi": durasi}
+// 	err := jampengisian.FindOne(context.TODO(), filter).Decode(&jp)
+// 	if err != nil {
+// 		fmt.Printf("getJamPengisianFromDurasi: %v\n", err)
+// 	}
+// 	return jp
+// }
 
 func GetLokasiFromNama(nama string, db *mongo.Database, col string) (lks model.Lokasi) {
 	lokasi := db.Collection(col)
