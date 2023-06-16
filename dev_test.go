@@ -8,24 +8,46 @@ import (
 )
 
 
+// func TestInsertKuesioner(t *testing.T) {
+// 	long := 103.5394871
+//     lat := -1.6102634
+//     lokasi := "Jambi"
+//     email := "rinaldibarimbing@gmail.com"
+//     status := "Done"
+//     biodata := model.Responden{
+//         Nama : "Rinaldi Barimbing",
+//         Jenis_kelamin : "laki-laki",
+// 		Email : "rinaldibarimbing@gmail.com",
+//         Usia : 25,
+//         Phone_number : "082264531232",
+
+//     }
+
+
+// 	hasil:=module.InsertKuesioner(module.MongoConn, "kuesioner", long ,lat , lokasi , email , status , biodata )
+// 	fmt.Println(hasil)
+// }
+
 func TestInsertKuesioner(t *testing.T) {
-	long := 103.5394871
-    lat := -1.6102634
-    lokasi := "Jambi"
-    email := "rinaldibarimbing@gmail.com"
-    status := "Done"
-    biodata := model.Responden{
-        Nama : "Rinaldi Barimbing",
+
+	long := 98.345345
+	lat := 123.561651
+	lokasi := "New York"
+	email := "george@gmail.com"
+	status := "Done"
+	biodata := model.Responden{
+		Nama : "George Barch",
         Jenis_kelamin : "laki-laki",
-		Email : "rinaldibarimbing@gmail.com",
-        Usia : 25,
-        Phone_number : "082264531232",
+		Email : "george@gmail.com",
+        Usia : 21,
+        Phone_number : "62783272839",
 
-    }
-
-
-	hasil:=module.InsertKuesioner(module.MongoConn, "kuesioner", long ,lat , lokasi , email , status , biodata )
-	fmt.Println(hasil)
+	}
+	insertedID, err := module.InsertKuesioner(module.MongoConn, "kuesioner", long, lat, lokasi, email, status, biodata)
+	if err != nil {
+		t.Errorf("Error inserting data: %v", err)
+	}
+	fmt.Printf("Data berhasil disimpan dengan id %s", insertedID.Hex())
 }
 
 func TestInsertResponden(t *testing.T) {
@@ -99,4 +121,23 @@ func TestGetAllKuesionerFromEmail(t *testing.T) {
 func TestGetAll(t *testing.T) {
 	data := module.GetAllKuesioner(module.MongoConn, "kuesioner")
 	fmt.Println(data)
+}
+
+func TestDeleteKuesionerByID(t *testing.T) {
+	id := "6482df84f23fcfcec36a7a2f" // ID data yang ingin dihapus
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		t.Fatalf("error converting id to ObjectID: %v", err)
+	}
+
+	err = module.DeleteKuesionerByID(objectID, module.MongoConn, "kuesioner")
+	if err != nil {
+		t.Fatalf("error calling DeleteKuesionerByID: %v", err)
+	}
+
+	// Verifikasi bahwa data telah dihapus dengan melakukan pengecekan menggunakan GetPresensiFromID
+	_, err = module.GetKuesionerFromID(objectID, module.MongoConn, "kuesioner")
+	if err == nil {
+		t.Fatalf("expected data to be deleted, but it still exists")
+	}
 }

@@ -167,6 +167,7 @@ func InsertKuesioner(db *mongo.Database, col string, lat float64, long float64, 
 		"longitude":    long,
 		"latitude":     lat,
 		"location":     lokasi,
+		"email":     	email,
 		"datetime":     primitive.NewDateTimeFromTime(time.Now().UTC()),
 		"status"  :     status,
 		"biodata":      biodata,
@@ -180,13 +181,14 @@ func InsertKuesioner(db *mongo.Database, col string, lat float64, long float64, 
 	return insertedID, nil
 }
 
-func UpdateKuesioner(db *mongo.Database, col string, lat float64, long float64, lokasi string, email string, status string, biodata model.Responden) (err error) {
-	// filter := bson.M{"_id": _id}
+func UpdateKuesioner(db *mongo.Database, col string, id primitive.ObjectID, lat float64, long float64, lokasi string, email string, status string, biodata model.Responden) (err error) {
+	filter := bson.M{"_id": id}
 	update := bson.M{
 		"$set": bson.M{
 			"longitude":    long,
 			"latitude":     lat,
 			"location":     lokasi,
+			"email":     	email,
 			"status":      	status,
 			"biodata":      biodata,
 		},
