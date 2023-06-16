@@ -30,17 +30,17 @@ func InsertOneDoc(db *mongo.Database, collection string, doc interface{}) (inser
 }
 
 
-func InsertKuesioner(db *mongo.Database, col string, lat float64, long float64, lokasi string, email string, status string, biodata model.Responden) (InsertedID interface{}) {
-	var kuesioner model.Kuesioner
-	kuesioner.Latitude = lat
-	kuesioner.Longitude = long
-	kuesioner.Location = lokasi
-	kuesioner.Email = email
-	kuesioner.Datetime = primitive.NewDateTimeFromTime(time.Now().UTC())
-	kuesioner.Status = status
-	kuesioner.Biodata = biodata
-	return InsertOneDoc(db, col, kuesioner)
-}
+// func InsertKuesioner(db *mongo.Database, col string, lat float64, long float64, lokasi string, email string, status string, biodata model.Responden) (InsertedID interface{}) {
+// 	var kuesioner model.Kuesioner
+// 	kuesioner.Latitude = lat
+// 	kuesioner.Longitude = long
+// 	kuesioner.Location = lokasi
+// 	kuesioner.Email = email
+// 	kuesioner.Datetime = primitive.NewDateTimeFromTime(time.Now().UTC())
+// 	kuesioner.Status = status
+// 	kuesioner.Biodata = biodata
+// 	return InsertOneDoc(db, col, kuesioner)
+// }
 
 func InsertResponden(db *mongo.Database, col string, nama string,  jenis_kelamin string, usia int, email string, phone_number string) (InsertedID interface{}) {
 	var responden model.Responden
@@ -159,4 +159,45 @@ func GetAllKuesioner(db *mongo.Database, col string) (data []model.Kuesioner) {
 		fmt.Println(err)
 	}
 	return
+}
+
+func InsertKuesioner(db *mongo.Database, col string, lat float64, long float64, lokasi string, email string, status string, biodata model.Responden) (insertedID primitive.ObjectID, err error) {
+	kuesioner := bson.M{
+		"longitude":    long,
+		"latitude":     lat,
+		"location":     lokasi,
+		"datetime":     primitive.NewDateTimeFromTime(time.Now().UTC()),
+		"status"  :     status,
+		"biodata":      biodata,
+	}
+	result, err := db.Collection(col).InsertOne(context.Background(), kuesioner)
+	if err != nil {
+		fmt.Printf("InsertKuesioner: %v\n", err)
+		return
+	}
+	insertedID = result.InsertedID.(primitive.ObjectID)
+	return insertedID, nil
+}
+
+func UpdateKuesioner(db *mongo.Database, col string, lat float64, long float64, lokasi string, email string, status string, biodata model.Responden) (err error) {
+	filter := bson.M{"_id": id}
+	update := bson.M{
+		"$set": bson.M{
+			"longitude":    long,
+			"latitude":     lat,
+			"location":     lokasi,
+			"status":      	status,
+			"biodata":      biodata,
+		},
+	}
+	result, err := db.Collection(col).UpdateOne(context.Background(), filter, update)
+	if err != nil {
+		fmt.Printf("UpdateKuesioner: %v\n", err)
+		return
+	}
+	if result.ModifiedCount == 0 {
+		err = errors.New("No data has been changed with the specified ID")
+		return
+	}
+	return nil
 }
