@@ -181,7 +181,7 @@ func InsertKuesioner(db *mongo.Database, col string, lat float64, long float64, 
 }
 
 func UpdateKuesioner(db *mongo.Database, col string, lat float64, long float64, lokasi string, email string, status string, biodata model.Responden) (err error) {
-	filter := bson.M{"_id": _id}
+	// filter := bson.M{"_id": _id}
 	update := bson.M{
 		"$set": bson.M{
 			"longitude":    long,
