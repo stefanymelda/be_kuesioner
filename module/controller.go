@@ -10,6 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"os"
 	"time"
+	"errors"
 )
 
 var MongoString string = os.Getenv("MONGOSTRING")
@@ -180,7 +181,7 @@ func InsertKuesioner(db *mongo.Database, col string, lat float64, long float64, 
 }
 
 func UpdateKuesioner(db *mongo.Database, col string, lat float64, long float64, lokasi string, email string, status string, biodata model.Responden) (err error) {
-	filter := bson.M{"_id": id}
+	filter := bson.M{"_id": _id}
 	update := bson.M{
 		"$set": bson.M{
 			"longitude":    long,
@@ -199,5 +200,21 @@ func UpdateKuesioner(db *mongo.Database, col string, lat float64, long float64, 
 		err = errors.New("No data has been changed with the specified ID")
 		return
 	}
+	return nil
+}
+
+func DeleteKuesionerByID(_id primitive.ObjectID, db *mongo.Database, col string) error {
+	responden := db.Collection(col)
+	filter := bson.M{"_id": _id}
+
+	result, err := responden.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		return fmt.Errorf("error deleting data for ID %s: %s", _id, err.Error())
+	}
+
+	if result.DeletedCount == 0 {
+		return fmt.Errorf("data with ID %s not found", _id)
+	}
+
 	return nil
 }
