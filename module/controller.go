@@ -205,6 +205,19 @@ func UpdateKuesioner(db *mongo.Database, col string, id primitive.ObjectID, lat 
 	return nil
 }
 
+func GetKuesionerFromID(_id primitive.ObjectID, db *mongo.Database, col string) (ksr model.Kuesioner, errs error) {
+	responden := db.Collection(col)
+	filter := bson.M{"_id": _id}
+	err := responden.FindOne(context.TODO(), filter).Decode(&ksr)
+	if err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			return ksr, fmt.Errorf("no data found for ID %s", _id)
+		}
+		return ksr, fmt.Errorf("error retrieving data for ID %s: %s", _id, err.Error())
+	}
+	return ksr, nil
+}
+
 func DeleteKuesionerByID(_id primitive.ObjectID, db *mongo.Database, col string) error {
 	responden := db.Collection(col)
 	filter := bson.M{"_id": _id}
