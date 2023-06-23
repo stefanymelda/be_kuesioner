@@ -162,6 +162,8 @@ func GetAllKuesioner(db *mongo.Database, col string) (data []model.Kuesioner) {
 	return
 }
 
+//TUGASBESAR
+
 func InsertKuesioner(db *mongo.Database, col string, lat float64, long float64, lokasi string, email string, status string, biodata model.Responden) (insertedID primitive.ObjectID, err error) {
 	kuesioner := bson.M{
 		"longitude":    long,
@@ -233,3 +235,28 @@ func DeleteKuesionerByID(_id primitive.ObjectID, db *mongo.Database, col string)
 
 	return nil
 }
+
+//ENDTUGASBESAR
+
+//LogAdmin
+
+func LogAdmin(db *mongo.Database, col string, username string, password string) (authenticated bool, err error) {
+	filter := bson.M{
+		"username": username,
+		"password": password,
+	}
+
+	result, err := db.Collection(col).CountDocuments(context.Background(), filter)
+	if err != nil {
+		fmt.Printf("LogAdmin: %v\n", err)
+		return false, err
+	}
+
+	if result == 1 {
+		return true, nil
+	}
+
+	return false, nil
+}
+
+//ENDLogAdmin

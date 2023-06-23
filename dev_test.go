@@ -1,9 +1,12 @@
 package Kuesioner
 
 import (
+	// "context"
 	"fmt"
 	"github.com/stefanymelda/be_kuesioner/model"
 	"github.com/stefanymelda/be_kuesioner/module"
+	// "go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"testing"
 )
 
@@ -123,6 +126,7 @@ func TestGetAll(t *testing.T) {
 	fmt.Println(data)
 }
 
+//TBNih
 func TestDeleteKuesionerByID(t *testing.T) {
 	id := "6482df84f23fcfcec36a7a2f" // ID data yang ingin dihapus
 	objectID, err := primitive.ObjectIDFromHex(id)
@@ -139,5 +143,25 @@ func TestDeleteKuesionerByID(t *testing.T) {
 	_, err = module.GetKuesionerFromID(objectID, module.MongoConn, "kuesioner")
 	if err == nil {
 		t.Fatalf("expected data to be deleted, but it still exists")
+	}
+}
+
+//ENDTBNih
+
+//LogAdmin
+
+func TestLogAdmin(t *testing.T) {
+	username := "adminnih"
+	password := "123admin"
+
+	authenticated, err := module.LogAdmin(module.MongoConn, "admin", username, password)
+	if err != nil {
+		t.Errorf("Error Authenticating Admin: %v", err)
+	}
+
+	if authenticated {
+		fmt.Println("Admin Login Successfully")
+	} else {
+		t.Errorf("Admin Login Failed")
 	}
 }

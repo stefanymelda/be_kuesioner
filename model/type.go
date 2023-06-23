@@ -61,3 +61,8 @@ type Survey struct {
 	Soal	Question	`bson:"soal,omitempty" json:"soal,omitempty"`
 }
 
+type Admin struct {
+	ID       primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
+	Username     string             `bson:"username,omitempty" json:"username,omitempty"`
+	Password     string             `bson:"password,omitempty" json:"password,omitempty"`
+}
