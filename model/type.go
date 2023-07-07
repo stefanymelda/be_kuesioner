@@ -45,6 +45,7 @@ type Lokasi struct {
 }
 
 type Question struct {
+	ID           primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
 	Nomor    int				`bson:"nomor,omitempty" json:"nomor,omitempty"`
 	Text     string             `bson:"text,omitempty" json:"text,omitempty"`
 	Options  string             `bson:"options,omitempty" json:"options,omitempty"`
@@ -56,6 +57,7 @@ type Answer struct {
 }
 
 type Survey struct {
+	ID           primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
 	Kode     int		`bson:"kode,omitempty" json:"kode,omitempty"`
 	Title     string             `bson:"title,omitempty" json:"title,omitempty"`
 	Soal	Question	`bson:"soal,omitempty" json:"soal,omitempty"`

@@ -179,6 +179,7 @@ func GetAllKuesioner(db *mongo.Database, col string) (data []model.Kuesioner) {
 
 //TUGASBESAR
 
+//KUESIONER
 func InsertKuesioner(db *mongo.Database, col string, lat float64, long float64, lokasi string, email string, status string, biodata model.Responden) (insertedID primitive.ObjectID, err error) {
 	kuesioner := bson.M{
 		"longitude":    long,
@@ -250,6 +251,76 @@ func DeleteKuesionerByID(_id primitive.ObjectID, db *mongo.Database, col string)
 
 	return nil
 }
+//ENDKUESIONER
+
+//SURVEY
+
+func InsertSurvey1(db *mongo.Database, col string, kode int, title string, soal model.Question) (insertedID primitive.ObjectID, err error) {
+	survey := bson.M{
+		"kode":    kode,
+		"title":   title,
+		"soal":    soal,
+	}
+	result, err := db.Collection(col).InsertOne(context.Background(), survey)
+	if err != nil {
+		fmt.Printf("InsertSurvey1: %v\n", err)
+		return
+	}
+	insertedID = result.InsertedID.(primitive.ObjectID)
+	return insertedID, nil
+}
+
+func UpdateSurvey(db *mongo.Database, id primitive.ObjectID, col string, kode int, title string, soal model.Question) (err error) {
+	filter := bson.M{"_id": id}
+	update := bson.M{
+		"$set": bson.M{
+			"kode":    kode,
+			"title":   title,
+			"soal":    soal,
+		},
+	}
+	result, err := db.Collection(col).UpdateOne(context.Background(), filter, update)
+	if err != nil {
+		fmt.Printf("UpdateSurvey: %v\n", err)
+		return
+	}
+	if result.ModifiedCount == 0 {
+		err = errors.New("No data has been changed with the specified ID")
+		return
+	}
+	return nil
+}
+
+func GetSurveyFromID(_id primitive.ObjectID, db *mongo.Database, col string) (ksr model.Question, errs error) {
+	question := db.Collection(col)
+	filter := bson.M{"_id": _id}
+	err := question.FindOne(context.TODO(), filter).Decode(&ksr)
+	if err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			return ksr, fmt.Errorf("no data found for ID %s", _id)
+		}
+		return ksr, fmt.Errorf("error retrieving data for ID %s: %s", _id, err.Error())
+	}
+	return ksr, nil
+}
+
+func DeleteSurveyByID(_id primitive.ObjectID, db *mongo.Database, col string) error {
+	question := db.Collection(col)
+	filter := bson.M{"_id": _id}
+
+	result, err := question.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		return fmt.Errorf("error deleting data for ID %s: %s", _id, err.Error())
+	}
+
+	if result.DeletedCount == 0 {
+		return fmt.Errorf("data with ID %s not found", _id)
+	}
+
+	return nil
+}
+
+//ENDSURVEY
 
 //ENDTUGASBESAR
 
