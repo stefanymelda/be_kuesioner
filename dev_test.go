@@ -3,13 +3,15 @@ package Kuesioner
 import (
 	// "context"
 	"fmt"
+
 	"github.com/stefanymelda/be_kuesioner/model"
 	"github.com/stefanymelda/be_kuesioner/module"
-	// "go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"testing"
-)
 
+	// "go.mongodb.org/mongo-driver/bson"
+	"testing"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 // func TestInsertKuesioner(t *testing.T) {
 // 	long := 103.5394871
@@ -25,7 +27,6 @@ import (
 //         Phone_number : "082264531232",
 
 //     }
-
 
 // 	hasil:=module.InsertKuesioner(module.MongoConn, "kuesioner", long ,lat , lokasi , email , status , biodata )
 // 	fmt.Println(hasil)
@@ -126,6 +127,10 @@ func TestGetAll(t *testing.T) {
 	fmt.Println(data)
 }
 
+func TestGetAllSurvey(t *testing.T) {
+	data := module.GetAllSurvey(module.MongoConn, "survey")
+	fmt.Println(data)
+}
 //TBNih
 func TestDeleteKuesionerByID(t *testing.T) {
 	id := "6482df84f23fcfcec36a7a2f" // ID data yang ingin dihapus
@@ -148,11 +153,23 @@ func TestDeleteKuesionerByID(t *testing.T) {
 
 //ENDTBNih
 
+func TestInsertAdmin(t *testing.T) {
+
+	username := "adminnih"
+	password := "admin123"
+	
+	insertedID, err := module.InsertAdmin(module.MongoConn, "admin", username, password)
+	if err != nil {
+		t.Errorf("Error inserting data: %v", err)
+	}
+	fmt.Printf("Data berhasil disimpan dengan id %s", insertedID.Hex())
+}
+
 //LogAdmin
 
 func TestLogAdmin(t *testing.T) {
 	username := "adminnih"
-	password := "123admin"
+	password := "admin123"
 
 	authenticated, err := module.LogAdmin(module.MongoConn, "admin", username, password)
 	if err != nil {

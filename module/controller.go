@@ -2,15 +2,16 @@ package module
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"github.com/stefanymelda/be_kuesioner/model"
+	"os"
+	"time"
+
 	"github.com/aiteung/atdb"
+	"github.com/stefanymelda/be_kuesioner/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"os"
-	"time"
-	"errors"
 )
 
 var MongoString string = os.Getenv("MONGOSTRING")
@@ -92,6 +93,20 @@ func InsertSurvey(db *mongo.Database, col string, kode int, title string, soal m
 	survey.Title = title
 	survey.Soal = soal
 	return InsertOneDoc(db, col, survey)
+}
+
+func GetAllSurvey(db *mongo.Database, col string) (data []model.Survey) {
+	data_survey := db.Collection(col)
+	filter := bson.M{}
+	cursor, err := data_survey.Find(context.TODO(), filter)
+	if err != nil {
+		fmt.Println("GetALLData :", err)
+	}
+	err = cursor.All(context.TODO(), &data)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return
 }
 
 func GetKuesionerFromStatus(status string, db *mongo.Database, col string) (ksr model.Kuesioner) {
@@ -237,6 +252,20 @@ func DeleteKuesionerByID(_id primitive.ObjectID, db *mongo.Database, col string)
 }
 
 //ENDTUGASBESAR
+
+func InsertAdmin(db *mongo.Database, col string, username string, password string) (insertedID primitive.ObjectID, err error) {
+	admin := bson.M{
+		"username": username,
+		"password": password,
+	}
+	result, err := db.Collection(col).InsertOne(context.Background(), admin)
+	if err != nil {
+		fmt.Printf("InsertAdmin: %v\n", err)
+		return
+	}
+	insertedID = result.InsertedID.(primitive.ObjectID)
+	return insertedID, nil
+}
 
 //LogAdmin
 
