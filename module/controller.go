@@ -291,10 +291,10 @@ func UpdateSurvey(db *mongo.Database, id primitive.ObjectID, col string, kode in
 	return nil
 }
 
-func GetSurveyFromID(_id primitive.ObjectID, db *mongo.Database, col string) (ksr model.Question, errs error) {
-	question := db.Collection(col)
+func GetSurveyFromID(_id primitive.ObjectID, db *mongo.Database, col string) (ksr model.Survey, errs error) {
+	survey := db.Collection(col)
 	filter := bson.M{"_id": _id}
-	err := question.FindOne(context.TODO(), filter).Decode(&ksr)
+	err := survey.FindOne(context.TODO(), filter).Decode(&ksr)
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
 			return ksr, fmt.Errorf("no data found for ID %s", _id)
